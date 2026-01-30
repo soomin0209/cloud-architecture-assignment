@@ -4,6 +4,7 @@ import com.cloudarchitecture.member.dto.GetMemberResponse;
 import com.cloudarchitecture.member.dto.SaveMemberRequest;
 import com.cloudarchitecture.member.dto.SaveMemberResponse;
 import com.cloudarchitecture.member.service.MemberService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -19,7 +20,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping
-    public ResponseEntity<SaveMemberResponse> saveMember(@RequestBody SaveMemberRequest request) {
+    public ResponseEntity<SaveMemberResponse> saveMember(@Valid @RequestBody SaveMemberRequest request) {
         log.info("[API-LOG] 팀원 저장 요청: name={}, age={}, mbti={}", request.getName(), request.getAge(), request.getMbti());
         return ResponseEntity.status(HttpStatus.CREATED).body(memberService.saveMember(request));
     }

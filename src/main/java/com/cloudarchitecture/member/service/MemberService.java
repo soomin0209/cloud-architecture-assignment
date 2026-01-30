@@ -4,6 +4,7 @@ import com.cloudarchitecture.member.dto.GetMemberResponse;
 import com.cloudarchitecture.member.dto.SaveMemberRequest;
 import com.cloudarchitecture.member.dto.SaveMemberResponse;
 import com.cloudarchitecture.member.entity.Member;
+import com.cloudarchitecture.member.exception.MemberNotFoundException;
 import com.cloudarchitecture.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,7 +31,7 @@ public class MemberService {
     @Transactional
     public GetMemberResponse getMember(Long id) {
         Member member = memberRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("존재하지 않는 팀원입니다.")
+                () -> new MemberNotFoundException("존재하지 않는 팀원입니다.")
         );
         return new GetMemberResponse(
                 member.getName(),
