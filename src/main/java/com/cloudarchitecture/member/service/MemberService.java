@@ -20,6 +20,7 @@ public class MemberService {
         Member member = new Member(request.getName(), request.getAge(), request.getMbti());
         Member savedMember = memberRepository.save(member);
         return new SaveMemberResponse(
+                savedMember.getId(),
                 savedMember.getName(),
                 savedMember.getAge(),
                 savedMember.getMbti()
