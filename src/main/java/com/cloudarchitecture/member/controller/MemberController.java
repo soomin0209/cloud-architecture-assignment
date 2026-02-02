@@ -37,6 +37,7 @@ public class MemberController {
     // 프로필 사진 업로드
     @PostMapping("/{id}/profile-image")
     public ResponseEntity<UploadImageResponse> uploadImage(@PathVariable Long id, @RequestParam("image") MultipartFile image) {
+        log.info("[API-LOG] 프로필 사진 업로드 요청: id={}, image={}", id, image.getOriginalFilename());
         String key = memberService.uploadImage(id, image);
         return ResponseEntity.ok(new UploadImageResponse(key));
     }
@@ -44,6 +45,7 @@ public class MemberController {
     // 프로필 사진 다운로드
     @GetMapping("/{id}/profile-image")
     public ResponseEntity<DownloadImageResponse> downloadImage(@PathVariable Long id) {
+        log.info("[API-LOG] 프로필 사진 다운로드 요청: id={}", id);
         URL url = memberService.downloadImage(id);
         return ResponseEntity.ok(new DownloadImageResponse(url.toString()));
     }
