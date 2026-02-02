@@ -37,3 +37,5 @@ jobs:
           SPRING_JPA_DATABASE_PLATFORM: "org.hibernate.dialect.H2Dialect"
           SPRING_JPA_HIBERNATE_DDL_AUTO: "create"
           SPRING_FLYWAY_ENABLED: "false"
+          SPRING_CONFIG_IMPORT: ""
+          SPRING_CLOUD_AWS_PARAMETERSTORE_ENABLED: "false"
