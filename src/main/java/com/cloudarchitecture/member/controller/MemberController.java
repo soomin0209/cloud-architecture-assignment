@@ -20,24 +20,28 @@ public class MemberController {
 
     private final MemberService memberService;
 
+    // 팀원 정보 저장
     @PostMapping
     public ResponseEntity<SaveMemberResponse> saveMember(@Valid @RequestBody SaveMemberRequest request) {
         log.info("[API-LOG] 팀원 저장 요청: name={}, age={}, mbti={}", request.getName(), request.getAge(), request.getMbti());
         return ResponseEntity.status(HttpStatus.CREATED).body(memberService.saveMember(request));
     }
 
+    // 팀원 정보 조회
     @GetMapping("/{id}")
     public ResponseEntity<GetMemberResponse> getMember(@PathVariable Long id) {
         log.info("[API-LOG] 팀원 조회 요청: id={}", id);
         return ResponseEntity.status(HttpStatus.OK).body(memberService.getMember(id));
     }
 
+    // 프로필 사진 업로드
     @PostMapping("/{id}/profile-image")
     public ResponseEntity<UploadImageResponse> uploadImage(@PathVariable Long id, @RequestParam("image") MultipartFile image) {
         String key = memberService.uploadImage(id, image);
         return ResponseEntity.ok(new UploadImageResponse(key));
     }
 
+    // 프로필 사진 다운로드
     @GetMapping("/{id}/profile-image")
     public ResponseEntity<DownloadImageResponse> downloadImage(@PathVariable Long id) {
         URL url = memberService.downloadImage(id);

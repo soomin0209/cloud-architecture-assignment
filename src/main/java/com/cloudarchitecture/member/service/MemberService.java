@@ -25,12 +25,14 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
+    // Presigned URL의 유효기간: 7일
     private static final Duration PRESIGNED_URL_EXPIRATION = Duration.ofDays(7);
     private final S3Template s3Template;
 
     @Value("${spring.cloud.aws.s3.bucket}")
     private String bucket;
 
+    // 팀원 정보 저장
     @Transactional
     public SaveMemberResponse saveMember(SaveMemberRequest request) {
         Member member = new Member(request.getName(), request.getAge(), request.getMbti());
@@ -43,6 +45,7 @@ public class MemberService {
         );
     }
 
+    // 팀원 정보 조회
     @Transactional
     public GetMemberResponse getMember(Long id) {
         Member member = memberRepository.findById(id).orElseThrow(
@@ -55,6 +58,7 @@ public class MemberService {
         );
     }
 
+    // 프로필 사진 업로드
     @Transactional
     public String uploadImage(Long id, MultipartFile image) {
         Member member = memberRepository.findById(id).orElseThrow(
@@ -63,6 +67,7 @@ public class MemberService {
         try {
             String key = "uploads/" + UUID.randomUUID() + "_" + image.getOriginalFilename();
             s3Template.upload(bucket, key, image.getInputStream());
+            // DB 저장
             member.saveProfileImageUrl(key);
             return key;
         } catch (IOException e) {
@@ -70,6 +75,7 @@ public class MemberService {
         }
     }
 
+    // 프로필 사진 다운로드
     @Transactional
     public URL downloadImage(Long id) {
         Member member = memberRepository.findById(id).orElseThrow(

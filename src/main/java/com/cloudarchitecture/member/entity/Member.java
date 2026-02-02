@@ -25,6 +25,7 @@ public class Member {
         this.mbti = mbti;
     }
 
+    // 프로필 사진 URL 저장
     public void saveProfileImageUrl(String profileImageUrl) {
         this.profileImageUrl = profileImageUrl;
     }
